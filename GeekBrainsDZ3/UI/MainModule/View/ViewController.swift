@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         session.userId = 20 
         
         print()
+        print()
     }
 }
 
