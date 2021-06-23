@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import Alamofire
+
 
 class ViewController: UIViewController {
     
+    let serviceUser = GetUsersServiceImp()
     
     @IBOutlet weak var tokenLabel: UILabel!
     
@@ -21,10 +24,22 @@ class ViewController: UIViewController {
         
         tokenLabel.text = session.token
         userIdLabel.text = String(session.userId)
-        session.userId = 20 
+        session.userId = 20
+
+        //MARK: - Сервис для получения списка друзей
+        serviceUser.getUsers {  (users) in
+            print(users)
+        }
+        //MARK: - Сервис для получения списка групп пользователя
+        serviceUser.getGroups { (groups) in
+                print(groups)
+            }
         
-        print()
-        print()
+        //MARK: - Сервис для получения фотографий пользователя
+        
+        serviceUser.getPhotos { (photos) in
+            print(photos)
+        }
     }
 }
 
