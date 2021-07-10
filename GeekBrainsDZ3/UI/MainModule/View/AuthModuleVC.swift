@@ -26,10 +26,6 @@ class AuthModuleVC: UIViewController {
                 webView.load(myRequest)
         request()
         
-        AF.request("https://api.vk.com/method/friends.get?v=5.52&access_token=128d5b8063b47d07bfc758df824f738898500df4be9824791b4308179c744f68d7e590d0d28d9730fb4d4&fields=city,domain")
-            .response { response in
-                print(response.value)
-            }
     }
     
     func request(){
@@ -72,6 +68,9 @@ extension AuthModuleVC: WKUIDelegate , WKNavigationDelegate {
         }
         
         let token = params["access_token"]
+        
+        SessionSingleton.shared.token = token!
+        //SessionSingleton.shared.userId
         
         print("\(String(describing: token)) ваш токен" as Any)
         

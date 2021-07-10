@@ -6,26 +6,28 @@
 //
 
 import Foundation
+import RealmSwift
+
 
 // MARK: - Groups
 struct Groups: Codable {
-    let response: ResponseGroup?
+    let response: ResponseGroup
 }
 
 // MARK: - Response
-struct ResponseGroup: Codable {
+struct ResponseGroup:Codable {
     let count: Int?
-    let items: [ItemGroup]?
+    let items: [ItemGroup]
 }
 
 // MARK: - Item
-struct ItemGroup: Codable {
-    let id: Int?
-    let name, screenName: String?
-    let isClosed: Int?
-    let type: TypeEnum?
-    let photo50, photo100, photo200: String?
-    let deactivated: String?
+class ItemGroup:Object,  Codable {
+    @objc dynamic var id: Int
+    @objc dynamic var name, screenName: String?
+    @objc dynamic var isClosed: Int
+    var type: TypeEnum?
+    @objc dynamic var photo50, photo100, photo200: String?
+    @objc dynamic var deactivated: String?
 
     enum CodingKeys: String, CodingKey {
         case id, name

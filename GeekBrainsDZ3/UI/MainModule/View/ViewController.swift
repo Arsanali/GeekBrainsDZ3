@@ -9,7 +9,7 @@ import UIKit
 import Alamofire
 
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     
     let serviceUser = GetUsersServiceImp()
     
