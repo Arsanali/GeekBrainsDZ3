@@ -11,6 +11,9 @@ import Alamofire
 
 class AuthModuleVC: UIViewController {
     
+    private let vm: AuthViewModel = AuthViewModelImpl()
+
+    
     @IBOutlet weak var webView: WKWebView! {
         didSet {
             webView.navigationDelegate = self
@@ -19,62 +22,29 @@ class AuthModuleVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        webView.uiDelegate = self
         
-        let myURL = URL(string:"https://vk.com")
-                let myRequest = URLRequest(url: myURL!)
-                webView.load(myRequest)
-        request()
-        
-    }
-    
-    func request(){
-        var urlComponents = URLComponents()
-        urlComponents.scheme = "https"
-        urlComponents.host = "oauth.vk.com"
-        urlComponents.path = "/authorize"
-        urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: "7886024"),
-            URLQueryItem(name: "display", value: "mobile"),
-            URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
-            URLQueryItem(name: "scope", value: "262150"),
-            URLQueryItem(name: "response_type", value: "token"),
-            URLQueryItem(name: "v", value: "5.68")
-        ]
-        
-        let request = URLRequest(url: urlComponents.url!)
-        
+        guard let request = vm.urlRequest else {
+            return
+        }
         webView.load(request)
+        webView.uiDelegate = self
     }
+
 }
 
 extension AuthModuleVC: WKUIDelegate , WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-        
-        guard let url = navigationResponse.response.url, url.path == "/blank.html", let fragment = url.fragment  else {
+        do{
+            try vm.saveTokenAndUserId(navigationResponse.response.url)
+            guard let presentVC = storyboard?.instantiateViewController(identifier: "tabbar") as? MainTabVC else{
+                print("Vc with identifier FriendsViewController, not found")
+                return
+            }
+          //  presentVC.presenter = FriendsVC() as? FriendsPresenter
+            view.window?.rootViewController = presentVC
+            decisionHandler(.cancel)
+        }catch{
             decisionHandler(.allow)
-            return
         }
-        
-        let params = fragment
-            .components(separatedBy: "&")
-            .map { $0.components(separatedBy: "=") }
-            .reduce([String: String]()) { result, param in
-                var dict = result
-                let key = param[0]
-                let value = param[1]
-                dict[key] = value
-                return dict
-        }
-        
-        let token = params["access_token"]
-        
-        SessionSingleton.shared.token = token!
-        //SessionSingleton.shared.userId
-        
-        print("\(String(describing: token)) ваш токен" as Any)
-        
-        
-        decisionHandler(.cancel)
     }
 }

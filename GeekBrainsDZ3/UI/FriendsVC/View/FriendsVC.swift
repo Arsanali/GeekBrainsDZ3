@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 
 protocol FriendsViewProtocol: class {
@@ -30,7 +31,7 @@ class FriendsVC: UIViewController {
    private func configurePresenter(){
         presenter = FriendsPresenterImp(view: self)
         presenter?.getFriends()
-  
+       // presenter?.fetchDataRealm()  
     }
     
     private func configureTableView(){
@@ -44,13 +45,13 @@ class FriendsVC: UIViewController {
 //MARK: - TableView methods
 extension FriendsVC: UITableViewDelegate , UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter?.model?.response?.items?.count ?? 0
+        return presenter?.model?.count ?? 0
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FriendsCell
-        let model = presenter?.model?.response?.items?[indexPath.row]
+        let model = presenter?.model?[indexPath.row] 
         cell.configureCell(with: model!) 
         return cell
     }

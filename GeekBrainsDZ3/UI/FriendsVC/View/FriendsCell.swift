@@ -36,9 +36,9 @@ class FriendsCell: UITableViewCell {
     }
     
     //MARK: - Конфигруция ячейки
-    public func configureCell(with model: Item){
+    public func configureCell(with model: Friends){
         nameLabel.text = model.firstName
         surnameLabel.text = model.lastName
-        imageUser.sd_setImage(with: URL(string: model.photo100 ?? ""), completed: nil)
+        imageUser.sd_setImage(with: URL(string: model.photoString ), completed: nil)
     }
 }
