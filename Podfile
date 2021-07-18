@@ -7,5 +7,6 @@ target 'GeekBrainsDZ3' do
 
   # Pods for GeekBrainsDZ3
 	pod 'DynamicJSON'
+	pod 'Firebase/Analytics'
 
 end

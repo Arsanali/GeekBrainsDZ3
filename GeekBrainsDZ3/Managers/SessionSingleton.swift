@@ -12,7 +12,7 @@ class SessionSingleton {
     static var shared = SessionSingleton()
     
     var token: String = "user token"
-    var userId: Int = 3233242341
+    var userId: String = "userID"
     
     private init() {}
     

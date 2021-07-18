@@ -6,7 +6,8 @@
 //
 
 import UIKit
-
+import FirebaseAnalytics
+import Firebase
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -21,6 +22,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
 //        window?.rootViewController = FriendsBuilder.configureScreenFriendsVC()
 //        window?.makeKeyAndVisible()
+        FirebaseApp.configure()
+        
+        
+        
+        
         
     }
 
